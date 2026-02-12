@@ -4,7 +4,8 @@ const nextConfig = {
   // output: 'export', // Commented out - wallet adapters need server-side rendering
   trailingSlash: true,
   images: {
-    unoptimized: true
+    unoptimized: true,
+    domains: [],
   },
   webpack: (config, { isServer }) => {
     if (!isServer) {

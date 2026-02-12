@@ -125,8 +125,21 @@ export default function ArciumRTGStyle() {
         }} />
       </div>
 
-      {/* Header - Top Right with enhanced styling */}
-      <header className="absolute top-6 right-6 z-50 flex items-center gap-4 fade-in">
+      {/* Header - Top with Logo and Wallet */}
+      <header className="absolute top-6 left-6 right-6 z-50 flex items-center justify-between fade-in">
+        {/* Logo */}
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-lg bg-purple-600 p-2 flex items-center justify-center">
+            <img 
+              src="/arcium-logo.png" 
+              alt="Arcium Logo" 
+              className="w-full h-full object-contain"
+            />
+          </div>
+          <span className="text-white font-bold text-xl hidden sm:block">Arcium</span>
+        </div>
+        
+        {/* Wallet Button */}
         <WalletMultiButton className="!bg-gradient-to-r !from-purple-600 !to-blue-600 !border !border-purple-400/50 !text-white hover:!from-purple-500 hover:!to-blue-500 !rounded-lg !shadow-lg !shadow-purple-500/30 hover:!scale-105 !transition-all" />
       </header>
 

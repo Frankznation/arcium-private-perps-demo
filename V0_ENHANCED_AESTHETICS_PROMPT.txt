@@ -1,0 +1,174 @@
+Create a stunning Next.js landing page for "Arcium Private Perps" - a private perpetuals trading platform with premium aesthetics, smooth animations, and glassmorphism effects.
+
+EXACT DESIGN WITH PREMIUM AESTHETICS:
+
+1. BACKGROUND:
+   - Pure black (#000000)
+   - Subtle animated gradient overlay (purple-blue, very low opacity ~5%)
+   - Full viewport height
+   - Custom scrollbar: purple gradient, thin (8px width)
+
+2. TOP RIGHT HEADER:
+   - Solana wallet connection button
+   - Styled with purple-blue gradient background
+   - Purple border with glow effect
+   - Hover: scale up slightly, brighter gradient, shadow glow
+   - Position: absolute top-right, padding 24px
+   - Smooth fade-in animation
+
+3. CIRCUIT BOARD PATTERN (TOP):
+   - Thin horizontal line pattern at very top (2-4px height)
+   - Dark gray with subtle purple tint
+   - Shimmer animation effect (moving light)
+   - Full width, subtle but visible
+
+4. GLOWING ORBS (ENHANCED):
+   - Two large orbs on left side, stacked vertically
+   - Size: ~128px diameter each
+   - Multiple layers:
+     * Outer glow: blur-2xl, opacity 70%, purple-blue gradient
+     * Middle layer: gradient center (purple-400 to blue-500)
+     * Inner highlight: white/20% opacity overlay
+     * Border: 2px purple/blue with glow shadow
+   - Slow floating animation (6s cycle, translateY -20px)
+   - Glow pulse animation (3s cycle, opacity 60-80%)
+   - Positioned at ~25% and ~40% from top
+   - Third partial orb on right side (~33% from top) with same effects
+
+5. MAIN TITLE (Centered, Enhanced):
+   - Text: "🔒 Arcium Private Perps"
+   - Lock emoji inline
+   - "Private Perps" uses gradient text effect:
+     * Gradient: purple-400 → blue-400 → purple-500
+     * Uses bg-clip-text and text-transparent
+   - Font size: EXTREMELY large (text-5xl to text-7xl)
+   - Font weight: Black (900)
+   - Color: Pure white (#ffffff) for "Arcium", gradient for "Private Perps"
+   - Centered horizontally
+   - Fade-in animation on load
+
+6. SUBTITLE:
+   - Text: "Private Perpetuals Trading Platform"
+   - Font size: Large (text-xl to text-2xl)
+   - Color: Light gray (#e5e7eb)
+   - Font weight: Semibold (600)
+   - Centered
+   - Fade-in with 0.2s delay
+
+7. TAGLINE:
+   - Text: "Built with Arcium Privacy-Preserving Computation on Solana"
+   - "Arcium" highlighted in purple-400, font-semibold
+   - "Solana" highlighted in blue-400, font-semibold
+   - Font size: Medium (text-base to text-lg)
+   - Color: Medium gray (#9ca3af)
+   - Centered
+   - Fade-in with 0.4s delay
+
+8. FEATURE BADGES (Enhanced):
+   - Row of gradient badge pills:
+     * "✅ Live Demo" - green-500 to emerald-500 gradient
+     * "🔐 Privacy Enabled" - blue-500 to cyan-500 gradient
+     * "⚡ Interactive" - purple-500 to pink-500 gradient
+     * "🔗 Wallet Connected" (if connected) - emerald-500 to teal-500, pulsing
+   - Each badge:
+     * Padding: 20px horizontal, 8px vertical
+     * Rounded-full
+     * Shadow-lg with matching color (e.g., shadow-green-500/30)
+     * Hover: scale-105 transition
+     * Font-semibold
+   - Centered, flex wrap, gap-3
+   - Fade-in with 0.6s delay
+
+9. WALLET STATUS (If Connected):
+   - Glassmorphism card:
+     * Background: rgba(0,0,0,0.6) with backdrop-blur(20px)
+     * Border: 1px solid purple-500/30
+     * Shadow-xl shadow-purple-500/20
+   - Text: "Connected: [truncated address]"
+   - Address in purple-300, font-mono
+   - Rounded-xl, padding 16px
+   - Centered, below badges
+
+10. POSITION FORM CARD (Glassmorphism):
+    - Background: rgba(0,0,0,0.6) with backdrop-blur(20px)
+    - Border: 1px solid purple-500/30
+    - Hover: border-purple-400/50
+    - Shadow-2xl shadow-purple-500/10
+    - Rounded-2xl, padding 32px
+    - Title: "📊 Open Private Position"
+      * Large emoji (text-4xl)
+      * "Open Private Position" uses gradient text
+      * Font-bold, text-3xl
+    
+    - Form inputs:
+      * Background: rgba(0,0,0,0.4)
+      * Border: purple-500/30
+      * Focus: border-purple-400, ring-2 ring-purple-500/50
+      * Padding: 12px horizontal, 12px vertical
+      * Placeholder: gray-500
+      * Smooth transitions
+    
+    - Submit button:
+      * Gradient: purple-600 → blue-600 → purple-600
+      * Hover: brighter gradient, scale-105
+      * Shadow-xl shadow-purple-500/50 on hover
+      * Large padding, rounded-lg
+
+11. ANIMATIONS:
+    - Fade-in: Content fades in from bottom (translateY 20px)
+    - Staggered delays: 0s, 0.2s, 0.4s, 0.6s
+    - Float: Orbs float up and down (6s cycle)
+    - Glow pulse: Orbs pulse glow (3s cycle)
+    - Shimmer: Circuit pattern has moving light
+    - Hover scale: Buttons scale to 1.05 on hover
+    - Smooth transitions: 200-300ms ease
+
+12. COLORS & GRADIENTS:
+    - Background: #000000
+    - Text white: #ffffff
+    - Text gray: #9ca3af
+    - Purple primary: #8b5cf6
+    - Purple secondary: #667eea
+    - Blue accent: #3b82f6
+    - Green: #10b981
+    - Emerald: #10b981
+    - Gradients: Use linear-gradient with multiple stops
+
+13. TYPOGRAPHY:
+    - Font: Inter (Google Fonts)
+    - Title: Black (900 weight)
+    - Subtitles: Semibold (600)
+    - Body: Regular (400)
+    - Buttons: Bold (700)
+    - Badges: Semibold (600)
+
+14. GLASSMORPHISM EFFECTS:
+    - backdrop-filter: blur(10px) to blur(20px)
+    - Background: rgba with low opacity
+    - Border: subtle colored borders
+    - Shadows: colored shadows matching theme
+
+15. RESPONSIVE:
+    - Mobile: Stack elements, smaller text, adjust orb positions
+    - Tablet: Maintain layout, adjust spacing
+    - Desktop: Full enhanced design
+
+TECHNICAL REQUIREMENTS:
+- Next.js 14 App Router
+- React 18, TypeScript
+- Tailwind CSS
+- 'use client' directive
+- @solana/wallet-adapter-react for wallet
+- Custom CSS animations in globals.css
+- Google Fonts: Inter
+- Custom scrollbar styling
+- Smooth 60fps animations
+
+CSS ANIMATIONS TO INCLUDE:
+- @keyframes fadeIn (opacity 0→1, translateY 20px→0)
+- @keyframes float (translateY 0→-20px→0)
+- @keyframes glow-pulse (opacity 0.6→0.8→0.6, scale 1→1.05→1)
+- @keyframes shimmer (background-position animation)
+- @keyframes gradient-shift (background-position for gradient)
+
+Make it look absolutely premium - smooth animations, beautiful gradients, glassmorphism effects, glowing orbs, and professional polish. Every detail should feel high-end and polished.
