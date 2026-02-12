@@ -152,30 +152,35 @@ export default function ArciumRTGStyle() {
 
       {/* Main Content - Centered */}
       <main className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 py-20">
-        {/* Purple Badge */}
-        <div className="mb-8 px-4 py-2 bg-gradient-to-r from-purple-600 to-purple-700 rounded-lg">
-          <span className="text-white text-sm font-semibold tracking-wider">RETROACTIVE TOKEN GRANTS</span>
-        </div>
-
         {/* Main Title */}
-        <h1 className="text-5xl md:text-7xl font-bold text-white text-center mb-6 leading-tight">
-          The <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-blue-400 to-purple-500 italic font-extrabold">&lt;Encrypted&gt;</span> Future is built for you
+        <h1 className="text-5xl md:text-7xl font-bold text-white text-center mb-4 leading-tight">
+          🔒 Arcium Private Perps
         </h1>
 
         {/* Subtitle */}
-        <p className="text-gray-400 text-lg md:text-xl text-center mb-12 max-w-2xl">
-          Contribute to activities under consideration for RTGs and grow alongside Arcium and its
+        <p className="text-gray-300 text-xl md:text-2xl text-center mb-4">
+          Private Perpetuals Trading Platform
         </p>
 
-        {/* Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 items-center">
-          <button className="px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold rounded-lg text-lg hover:from-purple-500 hover:to-blue-500 transition-all hover:scale-105 hover:shadow-lg hover:shadow-purple-500/50">
-            SEE OPPORTUNITIES &gt;&gt;
-          </button>
-          <button className="px-8 py-4 border-2 border-purple-500/50 text-purple-400 font-semibold rounded-lg text-lg hover:bg-purple-500/10 transition-all">
-            READ ABOUT RTGS
-          </button>
+        {/* Tagline */}
+        <p className="text-gray-400 text-base md:text-lg text-center mb-6 max-w-2xl">
+          Built with Arcium Privacy-Preserving Computation on Solana
+        </p>
+
+        {/* Feature Badges */}
+        <div className="flex flex-wrap justify-center gap-2 mb-6">
+          <span className="bg-green-500 text-white px-4 py-1 rounded-full text-sm">✅ Live Demo</span>
+          <span className="bg-blue-500 text-white px-4 py-1 rounded-full text-sm">🔐 Privacy Enabled</span>
+          <span className="bg-purple-500 text-white px-4 py-1 rounded-full text-sm">⚡ Interactive</span>
+          {connected && <span className="bg-emerald-500 text-white px-4 py-1 rounded-full text-sm">🔗 Wallet Connected</span>}
         </div>
+
+        {/* Wallet Status */}
+        {connected && publicKey && (
+          <div className="mb-8 p-3 bg-white/20 rounded-lg backdrop-blur-sm">
+            <p className="text-white text-sm">Connected: {publicKey.toBase58().slice(0, 4)}...{publicKey.toBase58().slice(-4)}</p>
+          </div>
+        )}
 
         {/* Position Form Section (Below main hero) */}
         {connected && (
