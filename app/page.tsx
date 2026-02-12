@@ -1,361 +1,127 @@
 'use client';
 
 import { useState } from 'react';
-import { useWallet } from '@solana/wallet-adapter-react';
-import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 
-export default function ArciumPrivatePerpsDemo() {
-  const { publicKey, connected } = useWallet();
-  const [position, setPosition] = useState(null);
-  const [result, setResult] = useState(null);
-  const [pnlResult, setPnlResult] = useState(null);
-  const [privacyInfo, setPrivacyInfo] = useState(false);
-
-  const generateHash = (data: any) => {
-    let hash = 0;
-    const str = JSON.stringify(data);
-    for (let i = 0; i < str.length; i++) {
-      const char = str.charCodeAt(i);
-      hash = ((hash << 5) - hash) + char;
-      hash = hash & hash;
-    }
-    return Math.abs(hash).toString(16).padStart(32, '0');
-  };
-
-  const encryptData = (data: any) => {
-    const encrypted = btoa(JSON.stringify(data));
-    return {
-      encrypted: encrypted,
-      hash: generateHash(data)
-    };
-  };
-
-  const handleOpenPosition = (formData: any) => {
-    if (!connected) {
-      alert('Please connect your Solana wallet first!');
-      return;
-    }
-
-    const { size, direction, leverage, entryPrice } = formData;
-    
-    const positionData = {
-      wallet: publicKey?.toBase58(),
-      size: parseFloat(size),
-      direction,
-      leverage: parseInt(leverage),
-      entryPrice: parseFloat(entryPrice),
-      timestamp: new Date().toISOString()
-    };
-
-    const encrypted = encryptData(positionData);
-    const newPosition = {
-      ...positionData,
-      encryptedData: encrypted.encrypted,
-      positionHash: encrypted.hash,
-      openedAt: new Date()
-    };
-
-    setPosition(newPosition);
-    setPrivacyInfo(true);
-    setResult({
-      type: 'position',
-      encrypted: encrypted.encrypted.substring(0, 50) + '...',
-      hash: encrypted.hash,
-      position: newPosition
-    });
-  };
-
-  const handleCheckPnL = () => {
-    if (!position) {
-      alert('Please open a position first');
-      return;
-    }
-
-    const currentPrice = (position as any).entryPrice * (0.95 + Math.random() * 0.1);
-    const priceChange = currentPrice - (position as any).entryPrice;
-    const priceChangePercent = (priceChange / (position as any).entryPrice) * 100;
-
-    let pnl;
-    if ((position as any).direction === 'long') {
-      pnl = priceChange * (position as any).size * (position as any).leverage;
-    } else {
-      pnl = -priceChange * (position as any).size * (position as any).leverage;
-    }
-
-    const pnlPercent = (pnl / ((position as any).size * (position as any).entryPrice)) * 100;
-
-    setPnlResult({
-      type: 'pnl',
-      currentPrice: currentPrice.toFixed(2),
-      entryPrice: (position as any).entryPrice.toFixed(2),
-      priceChange: priceChangePercent.toFixed(2),
-      pnl: pnl.toFixed(2),
-      pnlPercent: pnlPercent.toFixed(2),
-      isProfit: pnl >= 0
-    });
-  };
-
-  const handleCheckLiquidation = () => {
-    if (!position) {
-      alert('Please open a position first');
-      return;
-    }
-
-    const healthRatio = 120 + Math.random() * 80;
-    const isLiquidatable = healthRatio < 150;
-
-    setPnlResult({
-      type: 'liquidation',
-      healthRatio: healthRatio.toFixed(1),
-      isLiquidatable
-    });
-  };
+export default function ArciumRTGPortal() {
+  const [username, setUsername] = useState('neryn');
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-600 via-purple-700 to-indigo-800 p-4 md:p-8">
-      <div className="max-w-6xl mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden">
-        {/* Header */}
-        <header className="bg-gradient-to-r from-purple-600 to-indigo-700 text-white p-8 md:p-12 text-center relative">
-          <div className="absolute top-4 right-4">
-            <WalletMultiButton className="!bg-white !text-purple-600 hover:!bg-gray-100" />
+    <div className="relative w-full min-h-screen bg-black overflow-hidden">
+      {/* Circuit board pattern - top horizontal line */}
+      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-gray-700 to-transparent opacity-60" />
+      <div className="absolute top-0 left-0 right-0 h-0.5 bg-gray-800" />
+
+      {/* Animated glowing orbs on the left */}
+      <div className="absolute left-8 top-1/3 transform -translate-y-1/2 z-10">
+        {/* Top orb */}
+        <div className="relative w-32 h-32 mb-8">
+          <div className="absolute inset-0 border border-purple-500 border-opacity-40 rounded-full" />
+          <div className="absolute inset-2 bg-gradient-to-br from-purple-600 via-purple-700 to-blue-600 rounded-full blur-2xl opacity-60 animate-pulse" />
+          <div className="absolute inset-3 bg-gradient-to-br from-purple-500 to-blue-500 rounded-full blur-lg opacity-40" />
+        </div>
+
+        {/* Bottom orb */}
+        <div className="relative w-32 h-32">
+          <div className="absolute inset-0 border border-purple-500 border-opacity-40 rounded-full" />
+          <div className="absolute inset-2 bg-gradient-to-br from-blue-600 via-purple-600 to-purple-500 rounded-full blur-2xl opacity-60 animate-pulse" style={{ animationDelay: '0.5s' }} />
+          <div className="absolute inset-3 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full blur-lg opacity-40" />
+        </div>
+      </div>
+
+      {/* Partial orb on right side - bottom */}
+      <div className="absolute -right-12 bottom-12 w-40 h-40 border border-purple-400 border-opacity-20 rounded-full opacity-30" />
+
+      {/* Header - Portal button and username */}
+      <div className="absolute top-8 right-8 z-20 flex items-center gap-6">
+        <button className="text-white text-sm font-mono hover:text-purple-400 transition-colors">
+          {'>> PORTAL'}
+        </button>
+        <div className="text-white text-sm font-light">{username}</div>
+      </div>
+
+      {/* Main content - centered */}
+      <div className="relative h-full min-h-screen flex items-center justify-center px-4">
+        <div className="max-w-3xl mx-auto text-center">
+          {/* Purple badge */}
+          <div className="inline-block mb-8 px-4 py-2 bg-gradient-to-r from-purple-600 to-purple-700 rounded-full">
+            <p className="text-white text-xs font-bold uppercase tracking-widest">
+              Retroactive Token Grants
+            </p>
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-3">🔒 Arcium Private Perps</h1>
-          <p className="text-xl md:text-2xl mb-4">Interactive Demo - Private Perpetuals Trading Platform</p>
-          <p className="text-sm md:text-base opacity-90 mb-6">
-            Built with Arcium Privacy-Preserving Computation on Solana
+
+          {/* Main title with special Encrypted styling */}
+          <h1 className="text-6xl md:text-7xl font-bold text-white mb-6 leading-tight">
+            The{' '}
+            <span className="bg-gradient-to-r from-purple-400 via-purple-500 to-blue-500 bg-clip-text text-transparent italic font-extrabold">
+              {'<Encrypted>'}
+            </span>
+            {' '}Future is built for you
+          </h1>
+
+          {/* Subtitle */}
+          <p className="text-gray-400 text-lg md:text-xl mb-12 max-w-2xl mx-auto leading-relaxed">
+            Contribute to activities under consideration for RTGs and grow alongside Arcium and its
           </p>
-          {connected && publicKey && (
-            <div className="mb-4 p-3 bg-white/20 rounded-lg backdrop-blur-sm">
-              <p className="text-sm">Connected: {publicKey.toBase58().slice(0, 4)}...{publicKey.toBase58().slice(-4)}</p>
-            </div>
-          )}
-          <div className="flex flex-wrap justify-center gap-2">
-            <span className="bg-green-500 text-white px-4 py-1 rounded-full text-sm">✅ Live Demo</span>
-            <span className="bg-blue-500 text-white px-4 py-1 rounded-full text-sm">🔐 Privacy Enabled</span>
-            <span className="bg-purple-500 text-white px-4 py-1 rounded-full text-sm">⚡ Interactive</span>
-            {connected && <span className="bg-emerald-500 text-white px-4 py-1 rounded-full text-sm">🔗 Wallet Connected</span>}
-          </div>
-        </header>
 
-        <div className="p-6 md:p-10 space-y-6">
-          {/* Open Position Card */}
-          <PositionForm onSubmit={handleOpenPosition} />
-          
-          {privacyInfo && position && (
-            <div className="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-lg">
-              <strong className="text-blue-700">🔐 Privacy Protected:</strong>
-              <p className="text-blue-600 mt-2">
-                Your position details have been encrypted using Arcium's privacy-preserving computation.
-                <br />
-                <strong>Position Hash:</strong> {(position as any).positionHash.substring(0, 16)}...
-                <br />
-                Only you can see your exact position size ({(position as any).size} SOL) and direction ({(position as any).direction}).
-              </p>
-            </div>
-          )}
+          {/* CTA Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            {/* Primary button */}
+            <button className="group relative px-8 py-4 bg-gradient-to-r from-purple-600 to-purple-700 text-white font-bold rounded-lg hover:shadow-2xl hover:shadow-purple-500/50 transition-all duration-300 hover:scale-105 text-lg">
+              <span className="relative z-10">SEE OPPORTUNITIES {'>>'}</span>
+              <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-blue-500 rounded-lg opacity-0 group-hover:opacity-40 transition-opacity blur" />
+            </button>
 
-          {result && (result as any).type === 'position' && (
-            <div className="bg-gray-900 text-green-400 p-6 rounded-lg font-mono text-sm overflow-x-auto">
-              <div className="text-green-400 font-bold mb-4">✅ Private Position Opened Successfully!</div>
-              <div className="mb-4">
-                <div className="text-gray-400">Encrypted Position Data:</div>
-                <div className="ml-4">{`{`}</div>
-                <div className="ml-8">"encrypted": "{(result as any).encrypted}",</div>
-                <div className="ml-8">"hash": "{(result as any).hash}",</div>
-                <div className="ml-8">"status": "active"</div>
-                <div className="ml-4">{`}`}</div>
-              </div>
-              <div className="mt-4 text-yellow-400">
-                <div><strong>What's Private:</strong></div>
-                <div className="ml-4">- Position Size: {(position as any).size} SOL (encrypted)</div>
-                <div className="ml-4">- Direction: {(position as any).direction} (encrypted)</div>
-                <div className="ml-4">- Leverage: {(position as any).leverage}x (encrypted)</div>
-                <div className="ml-4">- Entry Price: ${(position as any).entryPrice} (encrypted)</div>
-              </div>
-              <div className="mt-4 text-blue-400">
-                <div><strong>What's Public:</strong></div>
-                <div className="ml-4">- Position Hash: {(result as any).hash.substring(0, 16)}... (for verification)</div>
-                <div className="ml-4">- Status: Active</div>
-                <div className="ml-4">- Opened At: {new Date((position as any).openedAt).toLocaleString()}</div>
-              </div>
-              <div className="mt-4 text-green-400 font-bold">🔐 Your position details remain private!</div>
-            </div>
-          )}
-
-          {/* Check Status Card */}
-          <div className="bg-gray-50 rounded-xl p-6 border-l-4 border-purple-600">
-            <h2 className="text-2xl font-bold text-purple-600 mb-4">📈 Check Position Status</h2>
-            <p className="text-gray-600 mb-6">
-              View your position's PnL while keeping position details private. Only final profit/loss is revealed.
-            </p>
-            <div className="flex flex-wrap gap-3">
-              <button
-                onClick={handleCheckPnL}
-                className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg transition-all hover:shadow-lg hover:-translate-y-0.5"
-              >
-                📊 Check PnL
-              </button>
-              <button
-                onClick={handleCheckLiquidation}
-                className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-lg transition-all hover:shadow-lg hover:-translate-y-0.5"
-              >
-                ⚠️ Check Liquidation Risk
-              </button>
-            </div>
-
-            {pnlResult && (pnlResult as any).type === 'pnl' && (
-              <div className="bg-gray-900 text-green-400 p-6 rounded-lg font-mono text-sm mt-4">
-                <div className="text-green-400 font-bold mb-4">📊 Position PnL (Public)</div>
-                <div className="mb-2">Current Market Price: ${(pnlResult as any).currentPrice}</div>
-                <div className="mb-2">Entry Price: ${(pnlResult as any).entryPrice}</div>
-                <div className="mb-2">Price Change: {(pnlResult as any).priceChange > 0 ? '+' : ''}{(pnlResult as any).priceChange}%</div>
-                <div className={`mb-4 font-bold ${(pnlResult as any).isProfit ? 'text-green-400' : 'text-red-400'}`}>
-                  PnL: {(pnlResult as any).pnl > 0 ? '+' : ''}${(pnlResult as any).pnl} ({(pnlResult as any).pnlPercent > 0 ? '+' : ''}{(pnlResult as any).pnlPercent}%)
-                </div>
-                <div className="text-blue-400 mt-4">
-                  <div><strong>🔐 Private Information (Not Revealed):</strong></div>
-                  <div className="ml-4">- Position Size: Hidden</div>
-                  <div className="ml-4">- Direction: Hidden</div>
-                  <div className="ml-4">- Leverage: Hidden</div>
-                  <div className="ml-4">- Exact Entry Price: Hidden</div>
-                </div>
-                <div className="text-green-400 font-bold mt-4">✅ Only final PnL is revealed for transparency!</div>
-              </div>
-            )}
-
-            {pnlResult && (pnlResult as any).type === 'liquidation' && (
-              <div className="bg-gray-900 text-yellow-400 p-6 rounded-lg font-mono text-sm mt-4">
-                <div className="text-yellow-400 font-bold mb-4">⚠️ Liquidation Risk Check (Private)</div>
-                <div className="mb-2">Health Ratio: {(pnlResult as any).healthRatio}%</div>
-                <div className={`mb-4 font-bold ${(pnlResult as any).isLiquidatable ? 'text-red-400' : 'text-green-400'}`}>
-                  Status: {(pnlResult as any).isLiquidatable ? '⚠️ At Risk' : '✅ Healthy'}
-                </div>
-                <div className="text-blue-400 mt-4">
-                  <div><strong>🔐 Privacy Protected:</strong></div>
-                  <div className="ml-4">This health check was computed privately using Arcium.</div>
-                  <div className="ml-4">Liquidators cannot see:</div>
-                  <div className="ml-8">- Your position size</div>
-                  <div className="ml-8">- Your exact health ratio</div>
-                  <div className="ml-8">- Whether you're at risk</div>
-                </div>
-                <div className="text-green-400 font-bold mt-4">
-                  ✅ Only the result (liquidatable: {(pnlResult as any).isLiquidatable ? 'yes' : 'no'}) is revealed!
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Info Box */}
-          <div className="bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded-lg">
-            <strong className="text-yellow-800">ℹ️ How Arcium Provides Privacy:</strong>
-            <ul className="list-disc list-inside mt-3 text-yellow-700 space-y-2">
-              <li><strong>Private Positions:</strong> Size and direction encrypted, only you know details</li>
-              <li><strong>Private Orders:</strong> Order intent hidden until execution</li>
-              <li><strong>Private Liquidation Checks:</strong> Health computed privately</li>
-              <li><strong>Public PnL:</strong> Only final profit/loss revealed for transparency</li>
-            </ul>
-          </div>
-
-          {/* Link Section */}
-          <div className="bg-green-50 rounded-xl p-8 text-center">
-            <h3 className="text-2xl font-bold text-purple-600 mb-4">🔗 Repository & Documentation</h3>
-            <a
-              href="https://github.com/Frankznation/arcium-private-perps"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-purple-600 hover:text-purple-800 text-xl font-bold underline"
-            >
-              📦 View Source Code on GitHub
-            </a>
-            <p className="text-gray-600 mt-4">
-              Full Solana program, frontend components, and documentation available in the repository.
-            </p>
+            {/* Secondary button */}
+            <button className="px-8 py-4 border-2 border-purple-400 text-purple-300 font-bold rounded-lg hover:bg-purple-950 hover:bg-opacity-30 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/30 text-lg">
+              READ ABOUT RTGS
+            </button>
           </div>
         </div>
       </div>
-    </div>
-  );
-}
 
-function PositionForm({ onSubmit }: { onSubmit: (data: any) => void }) {
-  const [formData, setFormData] = useState({
-    size: '100',
-    direction: 'long',
-    leverage: '10',
-    entryPrice: '150'
-  });
+      {/* Background glow effect */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute left-1/4 top-1/2 w-96 h-96 bg-purple-600 rounded-full blur-3xl opacity-5" />
+        <div className="absolute right-1/4 top-1/3 w-80 h-80 bg-blue-600 rounded-full blur-3xl opacity-5" />
+      </div>
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onSubmit(formData);
-  };
+      <style jsx>{`
+        @keyframes glow-pulse {
+          0%, 100% {
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
+          }
+          50% {
+            box-shadow: 0 0 40px rgba(139, 92, 246, 0.8);
+          }
+        }
 
-  return (
-    <div className="bg-gray-50 rounded-xl p-6 border-l-4 border-purple-600">
-      <h2 className="text-2xl font-bold text-purple-600 mb-4">📊 Open Private Position</h2>
-      <p className="text-gray-600 mb-6">
-        Simulate opening a private position. Your position details will be encrypted using Arcium and remain private.
-      </p>
-      
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="block text-sm font-bold text-gray-700 mb-2">Position Size (SOL)</label>
-          <input
-            type="number"
-            value={formData.size}
-            onChange={(e) => setFormData({ ...formData, size: e.target.value })}
-            min="1"
-            step="0.1"
-            className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-purple-600 focus:outline-none"
-            required
-          />
-        </div>
+        @keyframes fade-in {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
 
-        <div>
-          <label className="block text-sm font-bold text-gray-700 mb-2">Direction</label>
-          <select
-            value={formData.direction}
-            onChange={(e) => setFormData({ ...formData, direction: e.target.value })}
-            className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-purple-600 focus:outline-none"
-          >
-            <option value="long">Long</option>
-            <option value="short">Short</option>
-          </select>
-        </div>
+        * {
+          animation: fade-in 0.8s ease-out forwards;
+        }
 
-        <div>
-          <label className="block text-sm font-bold text-gray-700 mb-2">Leverage</label>
-          <input
-            type="number"
-            value={formData.leverage}
-            onChange={(e) => setFormData({ ...formData, leverage: e.target.value })}
-            min="1"
-            max="100"
-            className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-purple-600 focus:outline-none"
-            required
-          />
-        </div>
+        h1 {
+          animation-delay: 0.2s;
+        }
 
-        <div>
-          <label className="block text-sm font-bold text-gray-700 mb-2">Entry Price (USD)</label>
-          <input
-            type="number"
-            value={formData.entryPrice}
-            onChange={(e) => setFormData({ ...formData, entryPrice: e.target.value })}
-            min="1"
-            step="0.01"
-            className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-purple-600 focus:outline-none"
-            required
-          />
-        </div>
+        p {
+          animation-delay: 0.4s;
+        }
 
-        <button
-          type="submit"
-          className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg transition-all hover:shadow-lg hover:-translate-y-0.5"
-        >
-          🔒 Open Private Position
-        </button>
-      </form>
+        button {
+          animation-delay: 0.6s;
+        }
+      `}</style>
     </div>
   );
 }
