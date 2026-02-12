@@ -1,8 +1,11 @@
 'use client';
 
 import { useState } from 'react';
+import { useWallet } from '@solana/wallet-adapter-react';
+import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 
 export default function ArciumPrivatePerpsDemo() {
+  const { publicKey, connected } = useWallet();
   const [position, setPosition] = useState(null);
   const [result, setResult] = useState(null);
   const [pnlResult, setPnlResult] = useState(null);
@@ -28,9 +31,15 @@ export default function ArciumPrivatePerpsDemo() {
   };
 
   const handleOpenPosition = (formData: any) => {
+    if (!connected) {
+      alert('Please connect your Solana wallet first!');
+      return;
+    }
+
     const { size, direction, leverage, entryPrice } = formData;
     
     const positionData = {
+      wallet: publicKey?.toBase58(),
       size: parseFloat(size),
       direction,
       leverage: parseInt(leverage),
@@ -106,16 +115,25 @@ export default function ArciumPrivatePerpsDemo() {
     <div className="min-h-screen bg-gradient-to-br from-purple-600 via-purple-700 to-indigo-800 p-4 md:p-8">
       <div className="max-w-6xl mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden">
         {/* Header */}
-        <header className="bg-gradient-to-r from-purple-600 to-indigo-700 text-white p-8 md:p-12 text-center">
+        <header className="bg-gradient-to-r from-purple-600 to-indigo-700 text-white p-8 md:p-12 text-center relative">
+          <div className="absolute top-4 right-4">
+            <WalletMultiButton className="!bg-white !text-purple-600 hover:!bg-gray-100" />
+          </div>
           <h1 className="text-4xl md:text-5xl font-bold mb-3">🔒 Arcium Private Perps</h1>
           <p className="text-xl md:text-2xl mb-4">Interactive Demo - Private Perpetuals Trading Platform</p>
           <p className="text-sm md:text-base opacity-90 mb-6">
             Built with Arcium Privacy-Preserving Computation on Solana
           </p>
+          {connected && publicKey && (
+            <div className="mb-4 p-3 bg-white/20 rounded-lg backdrop-blur-sm">
+              <p className="text-sm">Connected: {publicKey.toBase58().slice(0, 4)}...{publicKey.toBase58().slice(-4)}</p>
+            </div>
+          )}
           <div className="flex flex-wrap justify-center gap-2">
             <span className="bg-green-500 text-white px-4 py-1 rounded-full text-sm">✅ Live Demo</span>
             <span className="bg-blue-500 text-white px-4 py-1 rounded-full text-sm">🔐 Privacy Enabled</span>
             <span className="bg-purple-500 text-white px-4 py-1 rounded-full text-sm">⚡ Interactive</span>
+            {connected && <span className="bg-emerald-500 text-white px-4 py-1 rounded-full text-sm">🔗 Wallet Connected</span>}
           </div>
         </header>
 

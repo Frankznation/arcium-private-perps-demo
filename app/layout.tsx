@@ -1,4 +1,6 @@
 import type { Metadata } from 'next'
+import { WalletProviders } from './providers'
+import './globals.css'
 
 export const metadata: Metadata = {
   title: 'Arcium Private Perps - Interactive Demo',
@@ -12,7 +14,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <WalletProviders>{children}</WalletProviders>
+      </body>
     </html>
   )
 }
