@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
+  // Remove static export for wallet adapter compatibility
+  // output: 'export', // Commented out - wallet adapters need server-side rendering
   trailingSlash: true,
   images: {
     unoptimized: true
@@ -12,6 +13,15 @@ const nextConfig = {
         fs: false,
         net: false,
         tls: false,
+        crypto: false,
+        stream: false,
+        url: false,
+        zlib: false,
+        http: false,
+        https: false,
+        assert: false,
+        os: false,
+        path: false,
       };
     }
     return config;
