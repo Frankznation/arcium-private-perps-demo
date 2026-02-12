@@ -63,15 +63,36 @@ Click the "Select Wallet" button in the top-right corner to connect.
 
 ## Deploy
 
-### Vercel
+### Quick Deploy to Vercel
+
+**Option 1: Via GitHub (Recommended)**
+1. Push to GitHub: `git push origin main`
+2. Go to https://vercel.com
+3. Click "Add New Project"
+4. Import `arcium-private-perps-demo` repository
+5. Click "Deploy" (no configuration needed!)
+
+**Option 2: Via Vercel CLI**
 ```bash
-vercel
+npm install -g vercel
+cd /Users/frankchinonso/arcium-private-perps-standalone
+vercel --prod
 ```
 
-The app works as a static export, so no special configuration needed.
+**Option 3: Use Deploy Script**
+```bash
+./QUICK_DEPLOY.sh
+```
 
-### Netlify
-Connect GitHub repository and deploy.
+Your app will be live at: `https://arcium-private-perps-demo.vercel.app`
+
+### Deploy to Netlify
+1. Push to GitHub
+2. Go to https://netlify.com
+3. Import repository
+4. Build command: `npm run build`
+5. Publish directory: `.next`
+6. Deploy!
 
 ## Repository
 
