@@ -1,0 +1,17 @@
+Create a stunning, production-ready DeFi app for "Arcium Private Perps" - private perpetuals trading on Solana.
+
+DESIGN: Dark theme with purple gradients (#667eea → #764ba2), glassmorphism cards, smooth animations. Think Jupiter/Orca quality.
+
+FEATURES:
+1. Top nav: Logo left, Solana wallet connection button right (Phantom/Solflare support)
+2. Hero: Full-height section, animated gradient bg, title "🔒 Arcium Private Perps", subtitle, feature badges, connected wallet display
+3. Open Position Card: Form with Position Size (SOL), Direction (Long/Short dropdown), Leverage (1-100x), Entry Price (USD). Purple gradient submit button. Disabled if wallet not connected.
+4. Position Display: After opening, show encrypted data preview, position hash, "What's Private" vs "What's Public" sections
+5. Actions Card: "Check PnL" and "Check Liquidation Risk" buttons. Results in dark code-style boxes with color coding
+6. Info Section: Privacy explanation with icons
+
+TECH: Next.js 14, React, TypeScript, Tailwind CSS, @solana/wallet-adapter-react
+
+UX: Smooth transitions, hover effects, loading states, error handling, mobile responsive, accessible.
+
+Make it look like a $10M+ funded Solana DeFi project. Premium quality, every pixel perfect.
