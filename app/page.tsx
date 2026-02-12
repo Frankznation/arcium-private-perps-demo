@@ -111,16 +111,24 @@ export default function ArciumPrivatePerps() {
 
   return (
     <div className="min-h-screen w-full relative overflow-hidden bg-black">
-      {/* Animated gradient background overlay */}
-      <div className="absolute inset-0 opacity-5 pointer-events-none">
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-600 via-blue-600 to-purple-600 animate-gradient-shift" />
-      </div>
-
       {/* Circuit board pattern at top */}
       <div className="circuit-board-top" />
 
-      {/* Header - Top Right */}
-      <header className="absolute top-6 right-6 z-50 animate-fade-in">
+      {/* Header */}
+      <header className="absolute top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-6 animate-fade-in">
+        {/* Logo and Text */}
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-lg bg-purple-600 p-2 flex items-center justify-center flex-shrink-0">
+            <img 
+              src="/arcium-logo.png" 
+              alt="Arcium Logo" 
+              className="w-full h-full object-contain"
+            />
+          </div>
+          <span className="text-white font-bold text-xl hidden sm:block">Arcium</span>
+        </div>
+
+        {/* Wallet Button */}
         <WalletMultiButton className="!bg-gradient-to-r !from-purple-600/50 !to-blue-600/50 !border !border-purple-500/70 !text-gray-200 !font-semibold !px-6 !py-2 !rounded-lg !transition-all !duration-300 hover:!from-purple-500/70 hover:!to-blue-500/70 hover:!border-purple-400 hover:!shadow-lg hover:!shadow-purple-500/50 hover:!scale-105" />
       </header>
 
@@ -131,14 +139,14 @@ export default function ArciumPrivatePerps() {
           <div className="absolute inset-0 bg-gradient-to-br from-purple-500 via-blue-500 to-purple-600 rounded-full blur-2xl opacity-70 animate-glow-pulse" />
           <div className="absolute inset-0 bg-gradient-to-br from-purple-400 to-blue-500 rounded-full" />
           <div className="absolute inset-1 bg-white/20 rounded-full" />
-          <div className="absolute inset-0 border-2 border-purple-400/30 rounded-full shadow-2xl" style={{ boxShadow: '0 0 30px rgba(139, 92, 246, 0.6)' }} />
+          <div className="absolute inset-0 border-2 border-purple-400/30 rounded-full" style={{ boxShadow: '0 0 30px rgba(139, 92, 246, 0.6)' }} />
         </div>
         {/* Second Orb */}
         <div className="relative w-24 h-24 sm:w-32 sm:h-32 animate-float" style={{ animationDelay: '1s' }}>
           <div className="absolute inset-0 bg-gradient-to-br from-blue-500 via-purple-500 to-blue-600 rounded-full blur-2xl opacity-70 animate-glow-pulse" style={{ animationDelay: '1s' }} />
           <div className="absolute inset-0 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full" />
           <div className="absolute inset-1 bg-white/20 rounded-full" />
-          <div className="absolute inset-0 border-2 border-blue-400/30 rounded-full shadow-2xl" style={{ boxShadow: '0 0 30px rgba(59, 130, 246, 0.6)' }} />
+          <div className="absolute inset-0 border-2 border-blue-400/30 rounded-full" style={{ boxShadow: '0 0 30px rgba(59, 130, 246, 0.6)' }} />
         </div>
       </div>
 
@@ -152,44 +160,44 @@ export default function ArciumPrivatePerps() {
       </div>
 
       {/* Main Content - Centered */}
-      <main className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 py-12 sm:py-20">
+      <main className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 py-12 sm:py-20 pt-32 sm:pt-24">
         {/* Main Title */}
-        <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black text-center mb-2 sm:mb-3 leading-tight text-balance animate-fade-in text-white">
+        <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black text-center mb-3 leading-tight text-balance animate-fade-in text-white">
           Arcium Private Perps
         </h1>
 
         {/* Subtitle */}
-        <p className="text-xl sm:text-2xl text-gray-100 text-center mb-2 sm:mb-3 font-semibold animate-fade-in animation-delay-100">
+        <p className="text-xl sm:text-2xl text-gray-100 text-center mb-3 font-semibold animate-fade-in animation-delay-100">
           Private Perpetuals Trading Platform
         </p>
 
         {/* Tagline with highlights */}
-        <p className="text-base sm:text-lg text-gray-400 text-center mb-8 sm:mb-12 animate-fade-in animation-delay-200">
+        <p className="text-base sm:text-lg text-gray-400 text-center mb-8 sm:mb-12 max-w-2xl animate-fade-in animation-delay-200">
           Built with{' '}
           <span className="text-purple-400 font-semibold">Arcium</span>
           {' '}Privacy-Preserving Computation on{' '}
           <span className="text-blue-400 font-semibold">Solana</span>
         </p>
 
-        {/* Feature Badges with Gradients */}
+        {/* Feature Badges */}
         <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-8 sm:mb-12 animate-fade-in animation-delay-300">
-          <div className="px-4 sm:px-5 py-2 bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-500/50 rounded-full text-green-400 text-xs sm:text-sm font-semibold hover:scale-105 transition-transform shadow-lg shadow-green-500/20">
+          <div className="px-5 py-2 bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-500/50 rounded-full text-green-400 text-xs sm:text-sm font-semibold hover:scale-105 transition-transform shadow-lg shadow-green-500/20">
             Live Demo
           </div>
-          <div className="px-4 sm:px-5 py-2 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 border border-blue-500/50 rounded-full text-blue-400 text-xs sm:text-sm font-semibold hover:scale-105 transition-transform shadow-lg shadow-blue-500/20">
+          <div className="px-5 py-2 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 border border-blue-500/50 rounded-full text-blue-400 text-xs sm:text-sm font-semibold hover:scale-105 transition-transform shadow-lg shadow-blue-500/20">
             Privacy Enabled
           </div>
-          <div className="px-4 sm:px-5 py-2 bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/50 rounded-full text-purple-400 text-xs sm:text-sm font-semibold hover:scale-105 transition-transform shadow-lg shadow-purple-500/20">
+          <div className="px-5 py-2 bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/50 rounded-full text-purple-400 text-xs sm:text-sm font-semibold hover:scale-105 transition-transform shadow-lg shadow-purple-500/20">
             Interactive
           </div>
           {connected && (
-            <div className="px-4 sm:px-5 py-2 bg-gradient-to-r from-emerald-500/20 to-teal-500/20 border border-emerald-500/50 rounded-full text-emerald-400 text-xs sm:text-sm font-semibold hover:scale-105 transition-transform shadow-lg shadow-emerald-500/20 animate-glow-pulse">
+            <div className="px-5 py-2 bg-gradient-to-r from-emerald-500/20 to-teal-500/20 border border-emerald-500/50 rounded-full text-emerald-400 text-xs sm:text-sm font-semibold hover:scale-105 transition-transform shadow-lg shadow-emerald-500/20 animate-glow-pulse">
               Wallet Connected
             </div>
           )}
         </div>
 
-        {/* Wallet Status - Glassmorphism */}
+        {/* Wallet Status */}
         {connected && publicKey && (
           <div className="mb-8 sm:mb-12 px-6 py-4 bg-black/60 backdrop-blur-xl border border-purple-500/30 rounded-xl text-white text-sm sm:text-base text-center animate-fade-in animation-delay-300 shadow-xl shadow-purple-500/10">
             Connected:{' '}
@@ -202,7 +210,7 @@ export default function ArciumPrivatePerps() {
         {/* Main Content - Only shows when wallet connected */}
         {connected && (
           <div className="w-full max-w-2xl space-y-6 sm:space-y-8 animate-fade-in animation-delay-400">
-            {/* Position Form Card - Glassmorphism */}
+            {/* Position Form Card */}
             <PositionForm onSubmit={handleOpenPosition} />
 
             {/* Position Success Display */}
