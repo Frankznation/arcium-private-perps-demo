@@ -6,9 +6,9 @@ import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 
 export default function ArciumPrivatePerpsDemo() {
   const { publicKey, connected } = useWallet();
-  const [position, setPosition] = useState(null);
-  const [result, setResult] = useState(null);
-  const [pnlResult, setPnlResult] = useState(null);
+  const [position, setPosition] = useState<any>(null);
+  const [result, setResult] = useState<any>(null);
+  const [pnlResult, setPnlResult] = useState<any>(null);
   const [privacyInfo, setPrivacyInfo] = useState(false);
 
   const generateHash = (data: any) => {
