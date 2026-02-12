@@ -36,33 +36,38 @@ export default function ArciumRTGStyle() {
       return;
     }
 
-    const { size, direction, leverage, entryPrice } = formData;
-    
-    const positionData = {
-      wallet: publicKey?.toBase58(),
-      size: parseFloat(size),
-      direction,
-      leverage: parseInt(leverage),
-      entryPrice: parseFloat(entryPrice),
-      timestamp: new Date().toISOString()
-    };
+    try {
+      const { size, direction, leverage, entryPrice } = formData;
+      
+      const positionData = {
+        wallet: publicKey?.toBase58(),
+        size: parseFloat(size),
+        direction,
+        leverage: parseInt(leverage),
+        entryPrice: parseFloat(entryPrice),
+        timestamp: new Date().toISOString()
+      };
 
-    const encrypted = encryptData(positionData);
-    const newPosition = {
-      ...positionData,
-      encryptedData: encrypted.encrypted,
-      positionHash: encrypted.hash,
-      openedAt: new Date()
-    };
+      const encrypted = encryptData(positionData);
+      const newPosition = {
+        ...positionData,
+        encryptedData: encrypted.encrypted,
+        positionHash: encrypted.hash,
+        openedAt: new Date()
+      };
 
-    setPosition(newPosition);
-    setPrivacyInfo(true);
-    setResult({
-      type: 'position',
-      encrypted: encrypted.encrypted.substring(0, 50) + '...',
-      hash: encrypted.hash,
-      position: newPosition
-    });
+      setPosition(newPosition);
+      setPrivacyInfo(true);
+      setResult({
+        type: 'position',
+        encrypted: encrypted.encrypted.substring(0, 50) + '...',
+        hash: encrypted.hash,
+        position: newPosition
+      });
+    } catch (error) {
+      console.error('Error opening position:', error);
+      alert('Error opening position. Please try again.');
+    }
   };
 
   const handleCheckPnL = () => {
@@ -71,28 +76,33 @@ export default function ArciumRTGStyle() {
       return;
     }
 
-    const currentPrice = (position as any).entryPrice * (0.95 + Math.random() * 0.1);
-    const priceChange = currentPrice - (position as any).entryPrice;
-    const priceChangePercent = (priceChange / (position as any).entryPrice) * 100;
+    try {
+      const currentPrice = (position as any).entryPrice * (0.95 + Math.random() * 0.1);
+      const priceChange = currentPrice - (position as any).entryPrice;
+      const priceChangePercent = (priceChange / (position as any).entryPrice) * 100;
 
-    let pnl;
-    if ((position as any).direction === 'long') {
-      pnl = priceChange * (position as any).size * (position as any).leverage;
-    } else {
-      pnl = -priceChange * (position as any).size * (position as any).leverage;
+      let pnl;
+      if ((position as any).direction === 'long') {
+        pnl = priceChange * (position as any).size * (position as any).leverage;
+      } else {
+        pnl = -priceChange * (position as any).size * (position as any).leverage;
+      }
+
+      const pnlPercent = (pnl / ((position as any).size * (position as any).entryPrice)) * 100;
+
+      setPnlResult({
+        type: 'pnl',
+        currentPrice: currentPrice.toFixed(2),
+        entryPrice: (position as any).entryPrice.toFixed(2),
+        priceChange: priceChangePercent.toFixed(2),
+        pnl: pnl.toFixed(2),
+        pnlPercent: pnlPercent.toFixed(2),
+        isProfit: pnl >= 0
+      });
+    } catch (error) {
+      console.error('Error calculating PnL:', error);
+      alert('Error calculating PnL. Please try again.');
     }
-
-    const pnlPercent = (pnl / ((position as any).size * (position as any).entryPrice)) * 100;
-
-    setPnlResult({
-      type: 'pnl',
-      currentPrice: currentPrice.toFixed(2),
-      entryPrice: (position as any).entryPrice.toFixed(2),
-      priceChange: priceChangePercent.toFixed(2),
-      pnl: pnl.toFixed(2),
-      pnlPercent: pnlPercent.toFixed(2),
-      isProfit: pnl >= 0
-    });
   };
 
   const handleCheckLiquidation = () => {
@@ -101,14 +111,19 @@ export default function ArciumRTGStyle() {
       return;
     }
 
-    const healthRatio = 120 + Math.random() * 80;
-    const isLiquidatable = healthRatio < 150;
+    try {
+      const healthRatio = 120 + Math.random() * 80;
+      const isLiquidatable = healthRatio < 150;
 
-    setPnlResult({
-      type: 'liquidation',
-      healthRatio: healthRatio.toFixed(1),
-      isLiquidatable
-    });
+      setPnlResult({
+        type: 'liquidation',
+        healthRatio: healthRatio.toFixed(1),
+        isLiquidatable
+      });
+    } catch (error) {
+      console.error('Error checking liquidation:', error);
+      alert('Error checking liquidation risk. Please try again.');
+    }
   };
 
   return (
@@ -140,7 +155,22 @@ export default function ArciumRTGStyle() {
         </div>
         
         {/* Wallet Button */}
-        <WalletMultiButton className="!bg-gradient-to-r !from-purple-600 !to-blue-600 !border !border-purple-400/50 !text-white hover:!from-purple-500 hover:!to-blue-500 !rounded-lg !shadow-lg !shadow-purple-500/30 hover:!scale-105 !transition-all" />
+        <div className="wallet-adapter-wrapper" style={{ zIndex: 1000, position: 'relative' }}>
+          <WalletMultiButton 
+            className="wallet-adapter-button-trigger"
+            style={{
+              background: 'linear-gradient(135deg, #667eea, #764ba2)',
+              border: '1px solid rgba(139, 92, 246, 0.5)',
+              color: 'white',
+              borderRadius: '8px',
+              padding: '0 24px',
+              height: '48px',
+              fontWeight: 600,
+              cursor: 'pointer',
+              transition: 'all 0.3s ease'
+            }}
+          />
+        </div>
       </header>
 
       {/* Glowing Orbs with enhanced effects */}
