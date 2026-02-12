@@ -4,11 +4,42 @@ import { useState } from 'react';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 
+interface Position {
+  wallet?: string;
+  size: number;
+  direction: string;
+  leverage: number;
+  entryPrice: number;
+  encryptedData: string;
+  positionHash: string;
+  openedAt: Date;
+  timestamp?: string;
+}
+
+interface Result {
+  type: string;
+  encrypted?: string;
+  hash?: string;
+  position?: Position;
+}
+
+interface PnlResult {
+  type: string;
+  currentPrice?: string;
+  entryPrice?: string;
+  priceChange?: string;
+  pnl?: string;
+  pnlPercent?: string;
+  isProfit?: boolean;
+  healthRatio?: string;
+  isLiquidatable?: boolean;
+}
+
 export default function ArciumPrivatePerpsDemo() {
   const { publicKey, connected } = useWallet();
-  const [position, setPosition] = useState(null);
-  const [result, setResult] = useState(null);
-  const [pnlResult, setPnlResult] = useState(null);
+  const [position, setPosition] = useState<Position | null>(null);
+  const [result, setResult] = useState<Result | null>(null);
+  const [pnlResult, setPnlResult] = useState<PnlResult | null>(null);
   const [privacyInfo, setPrivacyInfo] = useState(false);
 
   const generateHash = (data: any) => {
@@ -36,33 +67,43 @@ export default function ArciumPrivatePerpsDemo() {
       return;
     }
 
-    const { size, direction, leverage, entryPrice } = formData;
-    
-    const positionData = {
-      wallet: publicKey?.toBase58(),
-      size: parseFloat(size),
-      direction,
-      leverage: parseInt(leverage),
-      entryPrice: parseFloat(entryPrice),
-      timestamp: new Date().toISOString()
-    };
+    try {
+      const { size, direction, leverage, entryPrice } = formData;
+      
+      const positionData = {
+        wallet: publicKey?.toBase58(),
+        size: parseFloat(size),
+        direction,
+        leverage: parseInt(leverage),
+        entryPrice: parseFloat(entryPrice),
+        timestamp: new Date().toISOString()
+      };
 
-    const encrypted = encryptData(positionData);
-    const newPosition = {
-      ...positionData,
-      encryptedData: encrypted.encrypted,
-      positionHash: encrypted.hash,
-      openedAt: new Date()
-    };
+      const encrypted = encryptData(positionData);
+      const newPosition: Position = {
+        wallet: positionData.wallet,
+        size: positionData.size,
+        direction: positionData.direction,
+        leverage: positionData.leverage,
+        entryPrice: positionData.entryPrice,
+        encryptedData: encrypted.encrypted,
+        positionHash: encrypted.hash,
+        openedAt: new Date(),
+        timestamp: positionData.timestamp
+      };
 
-    setPosition(newPosition);
-    setPrivacyInfo(true);
-    setResult({
-      type: 'position',
-      encrypted: encrypted.encrypted.substring(0, 50) + '...',
-      hash: encrypted.hash,
-      position: newPosition
-    });
+      setPosition(newPosition);
+      setPrivacyInfo(true);
+      setResult({
+        type: 'position',
+        encrypted: encrypted.encrypted.substring(0, 50) + '...',
+        hash: encrypted.hash,
+        position: newPosition
+      });
+    } catch (error) {
+      console.error('Error opening position:', error);
+      alert('Error opening position. Please try again.');
+    }
   };
 
   const handleCheckPnL = () => {
@@ -71,28 +112,33 @@ export default function ArciumPrivatePerpsDemo() {
       return;
     }
 
-    const currentPrice = (position as any).entryPrice * (0.95 + Math.random() * 0.1);
-    const priceChange = currentPrice - (position as any).entryPrice;
-    const priceChangePercent = (priceChange / (position as any).entryPrice) * 100;
+    try {
+      const currentPrice = position.entryPrice * (0.95 + Math.random() * 0.1);
+      const priceChange = currentPrice - position.entryPrice;
+      const priceChangePercent = (priceChange / position.entryPrice) * 100;
 
-    let pnl;
-    if ((position as any).direction === 'long') {
-      pnl = priceChange * (position as any).size * (position as any).leverage;
-    } else {
-      pnl = -priceChange * (position as any).size * (position as any).leverage;
+      let pnl;
+      if (position.direction === 'long') {
+        pnl = priceChange * position.size * position.leverage;
+      } else {
+        pnl = -priceChange * position.size * position.leverage;
+      }
+
+      const pnlPercent = (pnl / (position.size * position.entryPrice)) * 100;
+
+      setPnlResult({
+        type: 'pnl',
+        currentPrice: currentPrice.toFixed(2),
+        entryPrice: position.entryPrice.toFixed(2),
+        priceChange: priceChangePercent.toFixed(2),
+        pnl: pnl.toFixed(2),
+        pnlPercent: pnlPercent.toFixed(2),
+        isProfit: pnl >= 0
+      });
+    } catch (error) {
+      console.error('Error calculating PnL:', error);
+      alert('Error calculating PnL. Please try again.');
     }
-
-    const pnlPercent = (pnl / ((position as any).size * (position as any).entryPrice)) * 100;
-
-    setPnlResult({
-      type: 'pnl',
-      currentPrice: currentPrice.toFixed(2),
-      entryPrice: (position as any).entryPrice.toFixed(2),
-      priceChange: priceChangePercent.toFixed(2),
-      pnl: pnl.toFixed(2),
-      pnlPercent: pnlPercent.toFixed(2),
-      isProfit: pnl >= 0
-    });
   };
 
   const handleCheckLiquidation = () => {
@@ -101,14 +147,19 @@ export default function ArciumPrivatePerpsDemo() {
       return;
     }
 
-    const healthRatio = 120 + Math.random() * 80;
-    const isLiquidatable = healthRatio < 150;
+    try {
+      const healthRatio = 120 + Math.random() * 80;
+      const isLiquidatable = healthRatio < 150;
 
-    setPnlResult({
-      type: 'liquidation',
-      healthRatio: healthRatio.toFixed(1),
-      isLiquidatable
-    });
+      setPnlResult({
+        type: 'liquidation',
+        healthRatio: healthRatio.toFixed(1),
+        isLiquidatable
+      });
+    } catch (error) {
+      console.error('Error checking liquidation:', error);
+      alert('Error checking liquidation risk. Please try again.');
+    }
   };
 
   return (
@@ -147,36 +198,36 @@ export default function ArciumPrivatePerpsDemo() {
               <p className="text-blue-600 mt-2">
                 Your position details have been encrypted using Arcium's privacy-preserving computation.
                 <br />
-                <strong>Position Hash:</strong> {(position as any).positionHash.substring(0, 16)}...
+                <strong>Position Hash:</strong> {position.positionHash.substring(0, 16)}...
                 <br />
-                Only you can see your exact position size ({(position as any).size} SOL) and direction ({(position as any).direction}).
+                Only you can see your exact position size ({position.size} SOL) and direction ({position.direction}).
               </p>
             </div>
           )}
 
-          {result && (result as any).type === 'position' && (
+          {result && result.type === 'position' && position && (
             <div className="bg-gray-900 text-green-400 p-6 rounded-lg font-mono text-sm overflow-x-auto">
               <div className="text-green-400 font-bold mb-4">✅ Private Position Opened Successfully!</div>
               <div className="mb-4">
                 <div className="text-gray-400">Encrypted Position Data:</div>
                 <div className="ml-4">{`{`}</div>
-                <div className="ml-8">"encrypted": "{(result as any).encrypted}",</div>
-                <div className="ml-8">"hash": "{(result as any).hash}",</div>
+                <div className="ml-8">"encrypted": "{result.encrypted}",</div>
+                <div className="ml-8">"hash": "{result.hash}",</div>
                 <div className="ml-8">"status": "active"</div>
                 <div className="ml-4">{`}`}</div>
               </div>
               <div className="mt-4 text-yellow-400">
                 <div><strong>What's Private:</strong></div>
-                <div className="ml-4">- Position Size: {(position as any).size} SOL (encrypted)</div>
-                <div className="ml-4">- Direction: {(position as any).direction} (encrypted)</div>
-                <div className="ml-4">- Leverage: {(position as any).leverage}x (encrypted)</div>
-                <div className="ml-4">- Entry Price: ${(position as any).entryPrice} (encrypted)</div>
+                <div className="ml-4">- Position Size: {position.size} SOL (encrypted)</div>
+                <div className="ml-4">- Direction: {position.direction} (encrypted)</div>
+                <div className="ml-4">- Leverage: {position.leverage}x (encrypted)</div>
+                <div className="ml-4">- Entry Price: ${position.entryPrice} (encrypted)</div>
               </div>
               <div className="mt-4 text-blue-400">
                 <div><strong>What's Public:</strong></div>
-                <div className="ml-4">- Position Hash: {(result as any).hash.substring(0, 16)}... (for verification)</div>
+                <div className="ml-4">- Position Hash: {result.hash?.substring(0, 16)}... (for verification)</div>
                 <div className="ml-4">- Status: Active</div>
-                <div className="ml-4">- Opened At: {new Date((position as any).openedAt).toLocaleString()}</div>
+                <div className="ml-4">- Opened At: {new Date(position.openedAt).toLocaleString()}</div>
               </div>
               <div className="mt-4 text-green-400 font-bold">🔐 Your position details remain private!</div>
             </div>
@@ -203,14 +254,14 @@ export default function ArciumPrivatePerpsDemo() {
               </button>
             </div>
 
-            {pnlResult && (pnlResult as any).type === 'pnl' && (
+            {pnlResult && pnlResult.type === 'pnl' && (
               <div className="bg-gray-900 text-green-400 p-6 rounded-lg font-mono text-sm mt-4">
                 <div className="text-green-400 font-bold mb-4">📊 Position PnL (Public)</div>
-                <div className="mb-2">Current Market Price: ${(pnlResult as any).currentPrice}</div>
-                <div className="mb-2">Entry Price: ${(pnlResult as any).entryPrice}</div>
-                <div className="mb-2">Price Change: {(pnlResult as any).priceChange > 0 ? '+' : ''}{(pnlResult as any).priceChange}%</div>
-                <div className={`mb-4 font-bold ${(pnlResult as any).isProfit ? 'text-green-400' : 'text-red-400'}`}>
-                  PnL: {(pnlResult as any).pnl > 0 ? '+' : ''}${(pnlResult as any).pnl} ({(pnlResult as any).pnlPercent > 0 ? '+' : ''}{(pnlResult as any).pnlPercent}%)
+                <div className="mb-2">Current Market Price: ${pnlResult.currentPrice}</div>
+                <div className="mb-2">Entry Price: ${pnlResult.entryPrice}</div>
+                <div className="mb-2">Price Change: {parseFloat(pnlResult.priceChange || '0') > 0 ? '+' : ''}{pnlResult.priceChange}%</div>
+                <div className={`mb-4 font-bold ${pnlResult.isProfit ? 'text-green-400' : 'text-red-400'}`}>
+                  PnL: {parseFloat(pnlResult.pnl || '0') > 0 ? '+' : ''}${pnlResult.pnl} ({parseFloat(pnlResult.pnlPercent || '0') > 0 ? '+' : ''}{pnlResult.pnlPercent}%)
                 </div>
                 <div className="text-blue-400 mt-4">
                   <div><strong>🔐 Private Information (Not Revealed):</strong></div>
@@ -223,12 +274,12 @@ export default function ArciumPrivatePerpsDemo() {
               </div>
             )}
 
-            {pnlResult && (pnlResult as any).type === 'liquidation' && (
+            {pnlResult && pnlResult.type === 'liquidation' && (
               <div className="bg-gray-900 text-yellow-400 p-6 rounded-lg font-mono text-sm mt-4">
                 <div className="text-yellow-400 font-bold mb-4">⚠️ Liquidation Risk Check (Private)</div>
-                <div className="mb-2">Health Ratio: {(pnlResult as any).healthRatio}%</div>
-                <div className={`mb-4 font-bold ${(pnlResult as any).isLiquidatable ? 'text-red-400' : 'text-green-400'}`}>
-                  Status: {(pnlResult as any).isLiquidatable ? '⚠️ At Risk' : '✅ Healthy'}
+                <div className="mb-2">Health Ratio: {pnlResult.healthRatio}%</div>
+                <div className={`mb-4 font-bold ${pnlResult.isLiquidatable ? 'text-red-400' : 'text-green-400'}`}>
+                  Status: {pnlResult.isLiquidatable ? '⚠️ At Risk' : '✅ Healthy'}
                 </div>
                 <div className="text-blue-400 mt-4">
                   <div><strong>🔐 Privacy Protected:</strong></div>
@@ -239,7 +290,7 @@ export default function ArciumPrivatePerpsDemo() {
                   <div className="ml-8">- Whether you're at risk</div>
                 </div>
                 <div className="text-green-400 font-bold mt-4">
-                  ✅ Only the result (liquidatable: {(pnlResult as any).isLiquidatable ? 'yes' : 'no'}) is revealed!
+                  ✅ Only the result (liquidatable: {pnlResult.isLiquidatable ? 'yes' : 'no'}) is revealed!
                 </div>
               </div>
             )}
