@@ -1,0 +1,142 @@
+Create a Next.js landing page for "Arcium Private Perps" - a private perpetuals trading platform. The landing page should have the Arcium RTG aesthetic but focused on Private Perps functionality.
+
+EXACT DESIGN:
+
+1. BACKGROUND:
+   - Pure black (#000000)
+   - Full viewport height
+   - No margins or padding on body
+
+2. TOP RIGHT HEADER:
+   - Solana wallet connection button (styled like ">> PORTAL")
+   - Position: absolute top-right, padding 24px
+   - When connected: Show truncated wallet address next to button
+   - Styling: Transparent background, purple border, purple text
+
+3. CIRCUIT BOARD PATTERN (TOP):
+   - Thin horizontal line pattern at very top
+   - Dark gray with subtle purple tint
+   - Height: 2-4px, full width
+   - Subtle scan line effect
+
+4. GLOWING ORBS:
+   - Two purple-blue gradient orbs on left side, stacked vertically
+   - Size: ~128px diameter each
+   - Purple-blue gradient (#667eea to #8b5cf6)
+   - Outer glow with blur-xl, opacity 60%
+   - Slow pulsing animation
+   - Positioned at ~25% and ~40% from top
+   - Partial orb on right side (~33% from top)
+
+5. MAIN TITLE (Centered):
+   - Text: "🔒 Arcium Private Perps"
+   - Font size: EXTREMELY large (text-6xl to text-7xl)
+   - Color: Pure white (#ffffff)
+   - Font weight: Bold (800)
+   - Centered horizontally
+   - Lock emoji included
+
+6. SUBTITLE:
+   - Text: "Private Perpetuals Trading Platform"
+   - Font size: Large (text-xl to text-2xl)
+   - Color: Light gray (#e5e7eb)
+   - Centered
+   - Margin bottom: 16px
+
+7. TAGLINE:
+   - Text: "Built with Arcium Privacy-Preserving Computation on Solana"
+   - Font size: Medium (text-base to text-lg)
+   - Color: Medium gray (#9ca3af)
+   - Centered
+   - Margin bottom: 24px
+
+8. FEATURE BADGES (Below tagline):
+   - Row of small badge pills:
+     * "✅ Live Demo" - green background
+     * "🔐 Privacy Enabled" - blue background
+     * "⚡ Interactive" - purple background
+   - If wallet connected: Add "🔗 Wallet Connected" badge
+   - Centered, flex row, gap between badges
+   - Small rounded pills with padding
+
+9. WALLET STATUS (If Connected):
+   - Card showing connected wallet address
+   - Background: White with 20% opacity, backdrop blur
+   - Text: "Connected: [truncated address]"
+   - Centered, below badges
+   - Margin top: 16px
+
+10. MAIN CONTENT (Below hero, only shows when wallet connected):
+    - Position Form Card:
+      * Background: Dark with purple border glow
+      * Title: "📊 Open Private Position"
+      * Form fields:
+        - Position Size (SOL) - number input
+        - Direction - dropdown (Long/Short)
+        - Leverage - number input (1-100x)
+        - Entry Price (USD) - number input
+      * Submit button: Purple gradient, "🔒 Open Private Position"
+      * Glassmorphism effect with backdrop blur
+    
+    - Position Display (after opening):
+      * Success message with encrypted data preview
+      * Position hash display
+      * "What's Private" vs "What's Public" sections
+    
+    - Action Buttons:
+      * "📊 Check PnL" - purple gradient button
+      * "⚠️ Check Liquidation Risk" - outlined purple button
+      * Side by side, equal width
+    
+    - Results Display:
+      * Dark code-style boxes
+      * Color-coded results (green for profit, red for loss)
+      * Privacy indicators
+
+11. SPACING & LAYOUT:
+    - Hero section: Centered vertically and horizontally
+    - Main content: Max width 1200px, centered
+    - Generous padding (24px mobile, 48px desktop)
+    - Cards have 16px gap between them
+
+12. COLORS:
+    - Background: #000000 (black)
+    - Text white: #ffffff
+    - Text gray: #9ca3af
+    - Purple primary: #8b5cf6
+    - Purple secondary: #667eea
+    - Blue accent: #3b82f6
+    - Green success: #10b981
+    - Red danger: #ef4444
+
+13. TYPOGRAPHY:
+    - Font: Inter or Poppins
+    - Title: Extra bold (800)
+    - Buttons: Bold (600)
+    - Body: Regular (400)
+
+14. ANIMATIONS:
+    - Orbs: Slow pulse (3-4s cycle)
+    - Content: Fade-in on load
+    - Buttons: Hover scale (1.05) with glow
+    - Smooth transitions (200ms)
+
+15. RESPONSIVE:
+    - Mobile: Stack elements, smaller text
+    - Tablet: Maintain layout, adjust spacing
+    - Desktop: Full design
+
+TECHNICAL:
+- Next.js 14 App Router
+- React 18, TypeScript
+- Tailwind CSS
+- 'use client' directive
+- Use @solana/wallet-adapter-react for wallet connection
+- Include WalletMultiButton component
+- Form state management with useState
+- Encryption simulation (btoa)
+- Hash generation function
+- PnL calculation logic
+- Liquidation check logic
+
+Make it look exactly like a premium Arcium Private Perps landing page - dark, futuristic, with purple accents, glowing orbs, and full wallet integration functionality.

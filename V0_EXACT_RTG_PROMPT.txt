@@ -1,0 +1,145 @@
+Create a Next.js landing page that is an EXACT replica of the Arcium RTG website (arcium.com/rtg). Match every visual detail precisely.
+
+EXACT VISUAL SPECIFICATIONS:
+
+1. BACKGROUND:
+   - Pure black (#000000) - no gradients, solid black
+   - Full viewport, no margins or padding on body
+
+2. TOP RIGHT HEADER:
+   - ">> PORTAL" button - small, subtle, positioned top-right
+   - Text color: light gray/white (#e5e7eb)
+   - Username "neryn" displayed next to it
+   - Small font size, minimal styling
+   - Position: absolute top-right, padding 24px
+
+3. CIRCUIT BOARD PATTERN (TOP):
+   - Thin horizontal line pattern at very top of page
+   - Dark gray lines (#1a1a1a) with subtle purple tint
+   - Resembles scan lines or circuit traces
+   - Height: ~2-4px
+   - Full width
+   - Subtle, not overwhelming
+
+4. GLOWING ORBS (LEFT SIDE):
+   - Two circular orbs stacked vertically on left side
+   - Top orb: positioned at ~25% from top
+   - Bottom orb: positioned below first orb with spacing
+   - Each orb:
+     * Size: ~128px diameter
+     * Purple-blue gradient center (#667eea to #8b5cf6)
+     * Outer glow: blur-xl, opacity 60%
+     * Subtle square border outline around each orb (barely visible)
+     * Pulsing animation (slow, subtle)
+   - Third partial orb visible on right side (~33% from top)
+
+5. PURPLE BADGE:
+   - Rectangular badge with purple background
+   - Text: "RETROACTIVE TOKEN GRANTS" (all caps)
+   - Position: Above main title, slightly offset to the right
+   - Background: Solid purple (#8b5cf6) or gradient purple
+   - Padding: 8px horizontal, 4px vertical
+   - Border radius: 4-6px
+   - Font: Small, bold, white text
+   - Letter spacing: wider (tracking-wider)
+
+6. MAIN TITLE:
+   - Text: "The <Encrypted> Future is built for you"
+   - Font size: EXTREMELY large (text-6xl to text-7xl on desktop)
+   - Color: Pure white (#ffffff)
+   - Font weight: Bold (700-800)
+   - Centered horizontally
+   - Line height: Tight (leading-tight)
+   - The "<Encrypted>" part:
+     * Enclosed in angle brackets: <Encrypted>
+     * Gradient text: purple to blue (#a855f7 → #3b82f6)
+     * Italic styling
+     * Slightly larger or bolder than rest of title
+     * Uses bg-clip-text and text-transparent for gradient
+
+7. SUBTITLE:
+   - Text: "Contribute to activities under consideration for RTGs and grow alongside Arcium and its"
+   - Font size: Medium-large (text-lg to text-xl)
+   - Color: Medium gray (#9ca3af or #6b7280)
+   - Centered
+   - Max width: ~800px
+   - Line height: Normal
+   - Margin bottom: 48px
+
+8. BUTTONS:
+   - Container: Flex row, gap between buttons, centered
+   
+   LEFT BUTTON "SEE OPPORTUNITIES >>":
+   - Background: Purple to blue gradient (#667eea → #764ba2)
+   - Text: White, bold
+   - Padding: 16px horizontal, 16px vertical
+   - Border radius: 8px
+   - Font size: Large (text-lg)
+   - Arrow ">>" at the end
+   - Hover: Scale up slightly (1.05), brighter gradient, shadow glow
+   - Prominent, larger than right button
+   
+   RIGHT BUTTON "READ ABOUT RTGS":
+   - Background: Transparent
+   - Border: 2px solid purple (#8b5cf6) at 50% opacity
+   - Text: Purple (#a855f7) or light purple
+   - Padding: 16px horizontal, 16px vertical
+   - Border radius: 8px
+   - Font size: Large (text-lg)
+   - Hover: Slight background tint (purple at 10% opacity)
+   - Less prominent than left button
+
+9. SPACING & LAYOUT:
+   - Main content centered vertically and horizontally
+   - Badge: 32px margin bottom
+   - Title: 24px margin bottom
+   - Subtitle: 48px margin bottom
+   - Buttons: Centered below subtitle
+   - Overall: Generous spacing, breathing room
+
+10. RESPONSIVE BREAKPOINTS:
+    - Mobile (< 640px):
+      * Title: text-4xl
+      * Buttons stack vertically
+      * Orbs smaller or repositioned
+      * Padding reduced
+    - Tablet (640px - 1024px):
+      * Title: text-5xl
+      * Buttons side-by-side
+      * Maintain layout
+    - Desktop (> 1024px):
+      * Full design as specified
+      * Title: text-7xl
+
+11. ANIMATIONS:
+    - Orbs: Slow pulse animation (3-4 second cycle)
+    - Content: Fade-in on load (0.5s delay)
+    - Buttons: Smooth hover transitions (200ms)
+    - No distracting animations, subtle and professional
+
+12. TYPOGRAPHY:
+    - Font family: Inter or Poppins (sans-serif)
+    - Title: Extra bold (800 weight)
+    - Buttons: Bold (600-700 weight)
+    - Badge: Semibold (600 weight)
+    - Subtitle: Regular (400 weight)
+
+EXACT COLOR VALUES:
+- Background: #000000
+- Text white: #ffffff
+- Text gray: #9ca3af
+- Purple primary: #8b5cf6
+- Purple secondary: #667eea
+- Blue accent: #3b82f6
+- Orb glow: rgba(139, 92, 246, 0.6)
+
+TECHNICAL REQUIREMENTS:
+- Next.js 14 App Router
+- React 18
+- TypeScript
+- Tailwind CSS
+- 'use client' directive
+- No external images - use CSS/Tailwind only
+- Pure CSS animations (no libraries)
+
+Make this an EXACT pixel-perfect replica of the Arcium RTG landing page. Every detail must match - colors, spacing, typography, positioning, animations.

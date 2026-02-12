@@ -1,0 +1,92 @@
+Create a Next.js page component that matches the exact design of Arcium RTG website (arcium.com/rtg).
+
+DESIGN REQUIREMENTS:
+
+Background & Layout:
+- Deep black background (#000000 or #0a0a0a)
+- Full viewport height
+- Centered content vertically and horizontally
+
+Header (Top Right):
+- ">> PORTAL" button in top right corner
+- Username/account display next to it (e.g., "neryn")
+- Small text, subtle styling
+
+Visual Elements:
+- Circuit board pattern: Horizontal textured line pattern at the very top, resembling scan lines or circuit board, subtle dark gray/black
+- Purple-blue glowing orbs: Two circular orbs on the left side, stacked vertically, each enclosed in subtle square outline, glowing purple-blue gradient (#667eea, #8b5cf6, #a855f7), one above the other
+- Partial orb visible on right side
+
+Main Content (Centered):
+
+1. Purple Badge:
+   - Rectangular badge with purple gradient background (#8b5cf6)
+   - Text: "RETROACTIVE TOKEN GRANTS"
+   - Positioned above main title, slightly to the right
+   - Small, uppercase text
+
+2. Main Title:
+   - Large, bold, centered title
+   - Text: "The <Encrypted> Future is built for you"
+   - The word "Encrypted" should be visually distinct:
+     * Enclosed in angle brackets: <Encrypted>
+     * Purple/blue gradient text effect
+     * Italic or special styling
+   - White or light gray text (#ffffff or #e5e7eb)
+   - Very large font size (5xl to 7xl)
+
+3. Subtitle:
+   - Smaller gray text below title
+   - Text: "Contribute to activities under consideration for RTGs and grow alongside Arcium and its"
+   - Color: Gray (#9ca3af)
+   - Centered
+
+4. Call-to-Action Buttons:
+   - Left Button: "SEE OPPORTUNITIES >>"
+     * Prominent, larger
+     * Purple/blue gradient background (#667eea to #764ba2)
+     * White text
+     * Arrow ">>" at the end
+     * Rounded corners
+     * Hover effects (scale, glow)
+   
+   - Right Button: "READ ABOUT RTGS"
+     * Less prominent, smaller
+     * Outlined or transparent with border
+     * White or light purple text
+     * Rounded corners
+
+COLOR PALETTE:
+- Background: #000000 (deep black)
+- Primary Purple: #8b5cf6, #667eea
+- Accent Blue: #3b82f6
+- Text Primary: #ffffff (white)
+- Text Secondary: #9ca3af (gray)
+- Orb Glow: Purple-blue gradient (#667eea → #8b5cf6 → #a855f7)
+
+TYPOGRAPHY:
+- Title: Large, bold, sans-serif (Inter or Poppins)
+- Subtitle: Medium, regular weight
+- Buttons: Medium, bold
+- Badge: Small, uppercase
+
+ANIMATIONS:
+- Subtle glow animation on orbs (pulse effect)
+- Fade-in animation for content
+- Hover effects on buttons (scale, glow, shadow)
+- Smooth transitions
+
+RESPONSIVE:
+- Mobile: Stack buttons vertically, adjust orb positions
+- Tablet: Maintain layout, adjust spacing
+- Desktop: Full layout as described
+
+TECHNICAL:
+- Next.js 14 with App Router
+- React 18
+- TypeScript
+- Tailwind CSS
+- Use 'use client' directive
+- Dark theme only
+
+Make it look EXACTLY like the Arcium RTG website - dark, futuristic, with purple accents and glowing orbs. The design should feel premium and professional.

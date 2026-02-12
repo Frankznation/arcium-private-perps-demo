@@ -113,78 +113,97 @@ export default function ArciumRTGStyle() {
 
   return (
     <div className="min-h-screen bg-black relative overflow-hidden">
+      {/* Animated gradient background overlay */}
+      <div className="absolute inset-0 opacity-5">
+        <div className="absolute inset-0 gradient-animated" />
+      </div>
+
       {/* Circuit board pattern at top */}
-      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-purple-500/20 to-transparent opacity-50">
-        <div className="h-full w-full" style={{
-          backgroundImage: 'repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(139, 92, 246, 0.3) 2px, rgba(139, 92, 246, 0.3) 4px)'
+      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-purple-500/30 to-transparent opacity-60 z-20">
+        <div className="h-full w-full shimmer" style={{
+          backgroundImage: 'repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(139, 92, 246, 0.4) 2px, rgba(139, 92, 246, 0.4) 4px)'
         }} />
       </div>
 
-      {/* Header - Top Right */}
-      <header className="absolute top-6 right-6 z-50 flex items-center gap-4">
-        <WalletMultiButton className="!bg-transparent !border !border-purple-500/50 !text-purple-400 hover:!bg-purple-500/10 !rounded-lg" />
-        {connected && publicKey && (
-          <span className="text-gray-400 text-sm">{publicKey.toBase58().slice(0, 4)}...{publicKey.toBase58().slice(-4)}</span>
-        )}
+      {/* Header - Top Right with enhanced styling */}
+      <header className="absolute top-6 right-6 z-50 flex items-center gap-4 fade-in">
+        <WalletMultiButton className="!bg-gradient-to-r !from-purple-600 !to-blue-600 !border !border-purple-400/50 !text-white hover:!from-purple-500 hover:!to-blue-500 !rounded-lg !shadow-lg !shadow-purple-500/30 hover:!scale-105 !transition-all" />
       </header>
 
-      {/* Glowing Orbs */}
-      <div className="absolute left-10 top-1/4 z-0">
-        <div className="relative w-32 h-32 mb-8">
-          <div className="absolute inset-0 bg-gradient-to-br from-purple-500 via-blue-500 to-purple-600 rounded-full blur-xl opacity-60 animate-pulse" />
-          <div className="absolute inset-2 bg-gradient-to-br from-purple-400 to-blue-500 rounded-full" />
-          <div className="absolute inset-0 border border-purple-400/30 rounded-full" style={{ boxShadow: '0 0 20px rgba(139, 92, 246, 0.5)' }} />
+      {/* Glowing Orbs with enhanced effects */}
+      <div className="absolute left-10 top-1/4 z-0 float-animation">
+        <div className="relative w-32 h-32 mb-8 glow-pulse">
+          <div className="absolute inset-0 bg-gradient-to-br from-purple-500 via-blue-500 to-purple-600 rounded-full blur-2xl opacity-70" />
+          <div className="absolute inset-2 bg-gradient-to-br from-purple-400 via-blue-400 to-purple-500 rounded-full" />
+          <div className="absolute inset-0 border-2 border-purple-400/40 rounded-full" style={{ boxShadow: '0 0 40px rgba(139, 92, 246, 0.6), inset 0 0 20px rgba(139, 92, 246, 0.3)' }} />
+          <div className="absolute inset-4 bg-gradient-to-br from-white/20 to-transparent rounded-full" />
         </div>
-        <div className="relative w-32 h-32">
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-500 via-purple-500 to-blue-600 rounded-full blur-xl opacity-60 animate-pulse" style={{ animationDelay: '1s' }} />
-          <div className="absolute inset-2 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full" />
-          <div className="absolute inset-0 border border-blue-400/30 rounded-full" style={{ boxShadow: '0 0 20px rgba(59, 130, 246, 0.5)' }} />
+        <div className="relative w-32 h-32 glow-pulse" style={{ animationDelay: '1.5s' }}>
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-500 via-purple-500 to-blue-600 rounded-full blur-2xl opacity-70" />
+          <div className="absolute inset-2 bg-gradient-to-br from-blue-400 via-purple-400 to-blue-500 rounded-full" />
+          <div className="absolute inset-0 border-2 border-blue-400/40 rounded-full" style={{ boxShadow: '0 0 40px rgba(59, 130, 246, 0.6), inset 0 0 20px rgba(59, 130, 246, 0.3)' }} />
+          <div className="absolute inset-4 bg-gradient-to-br from-white/20 to-transparent rounded-full" />
         </div>
       </div>
 
-      {/* Right side orb (partial) */}
-      <div className="absolute right-20 top-1/3 z-0">
+      {/* Right side orb (partial) with animation */}
+      <div className="absolute right-20 top-1/3 z-0 float-animation" style={{ animationDelay: '1s' }}>
         <div className="relative w-24 h-24">
-          <div className="absolute inset-0 bg-gradient-to-br from-purple-500 to-blue-500 rounded-full blur-xl opacity-40" />
-          <div className="absolute inset-2 bg-gradient-to-br from-purple-400/50 to-blue-400/50 rounded-full" />
+          <div className="absolute inset-0 bg-gradient-to-br from-purple-500 to-blue-500 rounded-full blur-xl opacity-50 glow-pulse" />
+          <div className="absolute inset-2 bg-gradient-to-br from-purple-400/60 to-blue-400/60 rounded-full" />
+          <div className="absolute inset-0 border border-purple-400/30 rounded-full" style={{ boxShadow: '0 0 30px rgba(139, 92, 246, 0.4)' }} />
         </div>
       </div>
 
       {/* Main Content - Centered */}
       <main className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 py-20">
-        {/* Main Title */}
-        <h1 className="text-5xl md:text-7xl font-bold text-white text-center mb-4 leading-tight">
-          🔒 Arcium Private Perps
+        {/* Main Title with enhanced styling */}
+        <h1 className="text-5xl md:text-7xl font-black text-white text-center mb-4 leading-tight fade-in">
+          <span className="inline-block">🔒</span> Arcium{' '}
+          <span className="text-gradient">Private Perps</span>
         </h1>
 
-        {/* Subtitle */}
-        <p className="text-gray-300 text-xl md:text-2xl text-center mb-4">
+        {/* Subtitle with animation */}
+        <p className="text-gray-200 text-xl md:text-2xl text-center mb-4 font-semibold fade-in-delay-1">
           Private Perpetuals Trading Platform
         </p>
 
-        {/* Tagline */}
-        <p className="text-gray-400 text-base md:text-lg text-center mb-6 max-w-2xl">
-          Built with Arcium Privacy-Preserving Computation on Solana
+        {/* Tagline with enhanced styling */}
+        <p className="text-gray-400 text-base md:text-lg text-center mb-8 max-w-2xl fade-in-delay-2">
+          Built with <span className="text-purple-400 font-semibold">Arcium Privacy-Preserving Computation</span> on{' '}
+          <span className="text-blue-400 font-semibold">Solana</span>
         </p>
 
-        {/* Feature Badges */}
-        <div className="flex flex-wrap justify-center gap-2 mb-6">
-          <span className="bg-green-500 text-white px-4 py-1 rounded-full text-sm">✅ Live Demo</span>
-          <span className="bg-blue-500 text-white px-4 py-1 rounded-full text-sm">🔐 Privacy Enabled</span>
-          <span className="bg-purple-500 text-white px-4 py-1 rounded-full text-sm">⚡ Interactive</span>
-          {connected && <span className="bg-emerald-500 text-white px-4 py-1 rounded-full text-sm">🔗 Wallet Connected</span>}
+        {/* Feature Badges with enhanced styling */}
+        <div className="flex flex-wrap justify-center gap-3 mb-8 fade-in-delay-3">
+          <span className="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-5 py-2 rounded-full text-sm font-semibold shadow-lg shadow-green-500/30 hover:scale-105 transition-transform cursor-default">
+            ✅ Live Demo
+          </span>
+          <span className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-5 py-2 rounded-full text-sm font-semibold shadow-lg shadow-blue-500/30 hover:scale-105 transition-transform cursor-default">
+            🔐 Privacy Enabled
+          </span>
+          <span className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-5 py-2 rounded-full text-sm font-semibold shadow-lg shadow-purple-500/30 hover:scale-105 transition-transform cursor-default">
+            ⚡ Interactive
+          </span>
+          {connected && (
+            <span className="bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-5 py-2 rounded-full text-sm font-semibold shadow-lg shadow-emerald-500/30 hover:scale-105 transition-transform cursor-default animate-pulse">
+              🔗 Wallet Connected
+            </span>
+          )}
         </div>
 
-        {/* Wallet Status */}
+        {/* Wallet Status with glassmorphism */}
         {connected && publicKey && (
-          <div className="mb-8 p-3 bg-white/20 rounded-lg backdrop-blur-sm">
-            <p className="text-white text-sm">Connected: {publicKey.toBase58().slice(0, 4)}...{publicKey.toBase58().slice(-4)}</p>
+          <div className="mb-8 p-4 glass-strong rounded-xl border border-purple-500/30 shadow-xl shadow-purple-500/20 fade-in">
+            <p className="text-white text-sm font-medium">
+              Connected: <span className="text-purple-300 font-mono">{publicKey.toBase58().slice(0, 4)}...{publicKey.toBase58().slice(-4)}</span>
+            </p>
           </div>
         )}
 
         {/* Position Form Section (Below main hero) */}
         {connected && (
-          <div className="mt-20 w-full max-w-2xl">
+          <div className="mt-20 w-full max-w-2xl fade-in-delay-3">
             <PositionForm onSubmit={handleOpenPosition} />
             
             {privacyInfo && position && (
@@ -265,55 +284,61 @@ function PositionForm({ onSubmit }: { onSubmit: (data: any) => void }) {
   };
 
   return (
-    <div className="bg-black/50 border border-purple-500/30 rounded-lg p-6 backdrop-blur-sm">
-      <h2 className="text-2xl font-bold text-white mb-4">📊 Open Private Position</h2>
+    <div className="glass-strong rounded-2xl p-8 shadow-2xl shadow-purple-500/10 border border-purple-500/30 hover:border-purple-400/50 transition-all">
+      <h2 className="text-3xl font-bold text-white mb-6 flex items-center gap-2">
+        <span className="text-4xl">📊</span>
+        <span className="text-gradient">Open Private Position</span>
+      </h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-sm font-semibold text-gray-300 mb-2">Position Size (SOL)</label>
+          <label className="block text-sm font-semibold text-gray-200 mb-2">Position Size (SOL)</label>
           <input
             type="number"
             value={formData.size}
             onChange={(e) => setFormData({ ...formData, size: e.target.value })}
-            className="w-full px-4 py-2 bg-black/50 border border-purple-500/30 rounded-lg text-white focus:border-purple-500 focus:outline-none"
+            className="w-full px-4 py-3 bg-black/40 border border-purple-500/30 rounded-lg text-white placeholder-gray-500 focus:border-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all"
+            placeholder="100"
             required
           />
         </div>
         <div>
-          <label className="block text-sm font-semibold text-gray-300 mb-2">Direction</label>
+          <label className="block text-sm font-semibold text-gray-200 mb-2">Direction</label>
           <select
             value={formData.direction}
             onChange={(e) => setFormData({ ...formData, direction: e.target.value })}
-            className="w-full px-4 py-2 bg-black/50 border border-purple-500/30 rounded-lg text-white focus:border-purple-500 focus:outline-none"
+            className="w-full px-4 py-3 bg-black/40 border border-purple-500/30 rounded-lg text-white focus:border-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all"
           >
-            <option value="long">Long</option>
-            <option value="short">Short</option>
+            <option value="long">Long 📈</option>
+            <option value="short">Short 📉</option>
           </select>
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-semibold text-gray-300 mb-2">Leverage</label>
+            <label className="block text-sm font-semibold text-gray-200 mb-2">Leverage</label>
             <input
               type="number"
               value={formData.leverage}
               onChange={(e) => setFormData({ ...formData, leverage: e.target.value })}
-              className="w-full px-4 py-2 bg-black/50 border border-purple-500/30 rounded-lg text-white focus:border-purple-500 focus:outline-none"
+              className="w-full px-4 py-3 bg-black/40 border border-purple-500/30 rounded-lg text-white placeholder-gray-500 focus:border-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all"
+              placeholder="10x"
               required
             />
           </div>
           <div>
-            <label className="block text-sm font-semibold text-gray-300 mb-2">Entry Price (USD)</label>
+            <label className="block text-sm font-semibold text-gray-200 mb-2">Entry Price (USD)</label>
             <input
               type="number"
               value={formData.entryPrice}
               onChange={(e) => setFormData({ ...formData, entryPrice: e.target.value })}
-              className="w-full px-4 py-2 bg-black/50 border border-purple-500/30 rounded-lg text-white focus:border-purple-500 focus:outline-none"
+              className="w-full px-4 py-3 bg-black/40 border border-purple-500/30 rounded-lg text-white placeholder-gray-500 focus:border-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all"
+              placeholder="150.00"
               required
             />
           </div>
         </div>
         <button
           type="submit"
-          className="w-full px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold rounded-lg hover:from-purple-500 hover:to-blue-500 transition-all hover:scale-105"
+          className="w-full px-6 py-4 bg-gradient-to-r from-purple-600 via-blue-600 to-purple-600 text-white font-bold rounded-lg text-lg hover:from-purple-500 hover:via-blue-500 hover:to-purple-500 transition-all hover:scale-105 hover:shadow-xl hover:shadow-purple-500/50 mt-4"
         >
           🔒 Open Private Position
         </button>
