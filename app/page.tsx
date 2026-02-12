@@ -4,11 +4,42 @@ import { useState } from 'react';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 
+interface Position {
+  wallet?: string;
+  size: number;
+  direction: string;
+  leverage: number;
+  entryPrice: number;
+  encryptedData: string;
+  positionHash: string;
+  openedAt: Date;
+  timestamp?: string;
+}
+
+interface Result {
+  type: string;
+  encrypted?: string;
+  hash?: string;
+  position?: Position;
+}
+
+interface PnlResult {
+  type: string;
+  currentPrice?: string;
+  entryPrice?: string;
+  priceChange?: string;
+  pnl?: string;
+  pnlPercent?: string;
+  isProfit?: boolean;
+  healthRatio?: string;
+  isLiquidatable?: boolean;
+}
+
 export default function ArciumRTGStyle() {
   const { publicKey, connected } = useWallet();
-  const [position, setPosition] = useState(null);
-  const [result, setResult] = useState(null);
-  const [pnlResult, setPnlResult] = useState(null);
+  const [position, setPosition] = useState<Position | null>(null);
+  const [result, setResult] = useState<Result | null>(null);
+  const [pnlResult, setPnlResult] = useState<PnlResult | null>(null);
   const [privacyInfo, setPrivacyInfo] = useState(false);
 
   const generateHash = (data: any) => {
@@ -49,11 +80,16 @@ export default function ArciumRTGStyle() {
       };
 
       const encrypted = encryptData(positionData);
-      const newPosition = {
-        ...positionData,
+      const newPosition: Position = {
+        wallet: positionData.wallet,
+        size: positionData.size,
+        direction: positionData.direction,
+        leverage: positionData.leverage,
+        entryPrice: positionData.entryPrice,
         encryptedData: encrypted.encrypted,
         positionHash: encrypted.hash,
-        openedAt: new Date()
+        openedAt: new Date(),
+        timestamp: positionData.timestamp
       };
 
       setPosition(newPosition);
@@ -77,23 +113,23 @@ export default function ArciumRTGStyle() {
     }
 
     try {
-      const currentPrice = (position as any).entryPrice * (0.95 + Math.random() * 0.1);
-      const priceChange = currentPrice - (position as any).entryPrice;
-      const priceChangePercent = (priceChange / (position as any).entryPrice) * 100;
+      const currentPrice = position.entryPrice * (0.95 + Math.random() * 0.1);
+      const priceChange = currentPrice - position.entryPrice;
+      const priceChangePercent = (priceChange / position.entryPrice) * 100;
 
       let pnl;
-      if ((position as any).direction === 'long') {
-        pnl = priceChange * (position as any).size * (position as any).leverage;
+      if (position.direction === 'long') {
+        pnl = priceChange * position.size * position.leverage;
       } else {
-        pnl = -priceChange * (position as any).size * (position as any).leverage;
+        pnl = -priceChange * position.size * position.leverage;
       }
 
-      const pnlPercent = (pnl / ((position as any).size * (position as any).entryPrice)) * 100;
+      const pnlPercent = (pnl / (position.size * position.entryPrice)) * 100;
 
       setPnlResult({
         type: 'pnl',
         currentPrice: currentPrice.toFixed(2),
-        entryPrice: (position as any).entryPrice.toFixed(2),
+        entryPrice: position.entryPrice.toFixed(2),
         priceChange: priceChangePercent.toFixed(2),
         pnl: pnl.toFixed(2),
         pnlPercent: pnlPercent.toFixed(2),
@@ -255,17 +291,17 @@ export default function ArciumRTGStyle() {
                 <p className="text-purple-200 mt-2 text-sm">
                   Your position details have been encrypted using Arcium's privacy-preserving computation.
                   <br />
-                  <strong>Position Hash:</strong> {(position as any).positionHash.substring(0, 16)}...
+                  <strong>Position Hash:</strong> {position.positionHash.substring(0, 16)}...
                 </p>
               </div>
             )}
 
-            {result && (result as any).type === 'position' && (
+            {result && result.type === 'position' && (
               <div className="mt-6 bg-black/50 border border-purple-500/30 p-6 rounded-lg backdrop-blur-sm">
                 <div className="text-green-400 font-bold mb-4">✅ Private Position Opened Successfully!</div>
                 <div className="text-gray-300 text-sm font-mono">
-                  <div>Encrypted: {(result as any).encrypted}</div>
-                  <div>Hash: {(result as any).hash.substring(0, 32)}...</div>
+                  <div>Encrypted: {result.encrypted}</div>
+                  <div>Hash: {result.hash?.substring(0, 32)}...</div>
                 </div>
               </div>
             )}
@@ -288,21 +324,21 @@ export default function ArciumRTGStyle() {
               </div>
             )}
 
-            {pnlResult && (pnlResult as any).type === 'pnl' && (
+            {pnlResult && pnlResult.type === 'pnl' && (
               <div className="mt-6 bg-black/50 border border-purple-500/30 p-6 rounded-lg">
                 <div className="text-white font-bold mb-2">📊 Position PnL</div>
-                <div className={`text-2xl font-bold ${(pnlResult as any).isProfit ? 'text-green-400' : 'text-red-400'}`}>
-                  ${(pnlResult as any).pnl} ({(pnlResult as any).pnlPercent}%)
+                <div className={`text-2xl font-bold ${pnlResult.isProfit ? 'text-green-400' : 'text-red-400'}`}>
+                  ${pnlResult.pnl} ({pnlResult.pnlPercent}%)
                 </div>
               </div>
             )}
 
-            {pnlResult && (pnlResult as any).type === 'liquidation' && (
+            {pnlResult && pnlResult.type === 'liquidation' && (
               <div className="mt-6 bg-black/50 border border-purple-500/30 p-6 rounded-lg">
                 <div className="text-white font-bold mb-2">⚠️ Liquidation Risk</div>
-                <div className={`text-xl font-bold ${(pnlResult as any).isLiquidatable ? 'text-red-400' : 'text-green-400'}`}>
-                  Health Ratio: {(pnlResult as any).healthRatio}%
-                  {(pnlResult as any).isLiquidatable ? ' - ⚠️ At Risk' : ' - ✅ Healthy'}
+                <div className={`text-xl font-bold ${pnlResult.isLiquidatable ? 'text-red-400' : 'text-green-400'}`}>
+                  Health Ratio: {pnlResult.healthRatio}%
+                  {pnlResult.isLiquidatable ? ' - ⚠️ At Risk' : ' - ✅ Healthy'}
                 </div>
               </div>
             )}
