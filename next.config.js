@@ -2,7 +2,7 @@
 const nextConfig = {
   // Remove static export for wallet adapter compatibility
   // output: 'export', // Commented out - wallet adapters need server-side rendering
-  trailingSlash: true,
+  reactStrictMode: true,
   images: {
     unoptimized: true,
     domains: [],
